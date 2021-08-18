@@ -137,7 +137,9 @@ int main(int argc, char **argv) {
 
     Sequence seq = initSequence();
     while(seq.indices_end < count) {
-        nextSeqItem(&seq);
+        if(nextSeqItem(&seq)) {
+            return 1;
+        }
     }
 
     printf("String is %s\n", seq.buf);
