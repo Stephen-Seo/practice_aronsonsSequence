@@ -1,0 +1,9 @@
+Aronson\u2019s sequence 1, 4, 11, 16, 24, 29, 33, 35, 39, \u2026 (A005224) is
+an infinite self-referential sequence defined as:
+
+    T is the first, fourth, eleventh, \u2026 letter in this sentence.
+
+Your task is to write a program that generates Aronson\u2019s sequence and use
+it to compute the first hundred members of the sequence. When you are finished,
+you are welcome to read or run a suggested solution, or to post your own
+solution or discuss the exercise in the comments below.
