@@ -4,7 +4,9 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define INIT_SEQ_BUF_SIZE 1024
 #define INIT_SEQ_NUM_TO_STR_SIZE 128
+#define INIT_SEQ_NUM_TOKENS_SIZE 8
 
 #define FIRST "first"
 #define SECOND "second"
@@ -14,7 +16,7 @@
 #define SIXTH "sixth"
 #define SEVENTH "seventh"
 #define EIGHTH "eighth"
-#define NINTH "ningth"
+#define NINTH "ninth"
 #define TENTH "tenth"
 
 #define ELEVENTH "eleventh"
@@ -39,6 +41,16 @@
 #define NINE "nine"
 #define TEN "ten"
 
+#define ELEVEN "eleven"
+#define TWELVE "twelve"
+#define THIRTEEN "thirteen"
+#define FOURTEEN "fourteen"
+#define FIFTEEN "fifteen"
+#define SIXTEEN "sixteen"
+#define SEVENTEEN "seventeen"
+#define EIGHTEEN "eighteen"
+#define NINETEEN "nineteen"
+
 #define TWENTY "twenty"
 #define THIRTY "thirty"
 #define FOURTY "fourty"
@@ -49,7 +61,7 @@
 #define NINETY "ninety"
 
 #define TWENTIETH "twentieth"
-#define THRITIETH "thirtieth"
+#define THIRTIETH "thirtieth"
 #define FOURTIETH "fourtieth"
 #define FIFTIETH "fiftieth"
 #define SIXTIETH "sixtieth"
@@ -69,14 +81,30 @@
 #define BILLIONTH "billionth"
 #define TRILLIONTH "trillionth"
 
-void doubleBufSize(char **buf, size_t *buf_size);
-
-void thousandToString(char **buf, size_t *buf_idx, size_t *buf_size, unsigned long long t, int last);
+typedef struct NumToken {
+    unsigned long long value;
+    unsigned long long suffix;
+    char flags; // 0b0001 - last value
+} NumToken;
 
 /*!
- * \brief Returns a word-based number string from the input number.
+ * \brief Convert a number to tokens
  *
- * \warning The returned pointer must be free'd eventually.
+ * \warning The returned pointer must be eventually free'd
+ */
+NumToken * numberToTokens(unsigned long long n, size_t *tokens_size);
+
+/*!
+ * \brief Convert tokens to a string
+ *
+ * \warning The returned pointer must be eventually free'd
+ */
+const char * tokensToString(NumToken *tokens, size_t tokens_size);
+
+/*!
+ * \brief Convert a number to a string
+ *
+ * \warning The returned pointer must be eventually free'd
  */
 const char * numberToString(unsigned long long n);
 

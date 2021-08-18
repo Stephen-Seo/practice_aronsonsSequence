@@ -14,7 +14,6 @@ void printHelp() {
 }
 
 typedef struct Sequence {
-    unsigned long long idx;
     unsigned char *buf;
     size_t buf_size;
     size_t buf_end;
@@ -39,35 +38,48 @@ void doubleIndBuf(Sequence *seq) {
     seq->indices_size *= 2;
 }
 
-void nextSeqItem(Sequence *seq) {
-    if(seq->buf_end > seq->buf_size) {
-        puts("ERROR: Sequence in invalid state!");
-        return;
-    } else if(seq->buf_end == seq->buf_size) {
-        doubleSeqBuf(seq);
+int nextSeqItem(Sequence *seq) {
+    if(seq->indices[seq->indices_end] == 0) {
+        size_t idx = seq->indices[seq->indices_end - 1] + 1;
+        for(; idx < seq->buf_size && seq->buf[idx] != 0; ++idx) {
+            if(seq->buf[idx] == 't' || seq->buf[idx] == 'T') {
+                break;
+            }
+        }
+        if(seq->buf[idx] != 't' && seq->buf[idx] != 'T') {
+            puts("ERROR: Invalid state!");
+            return 1;
+        }
+
+        seq->indices[seq->indices_end++] = idx;
+        const char *next_str = numberToString(idx + 1);
+        size_t next_str_size = strlen(next_str);
+        while(seq->buf_end + next_str_size + 1 >= seq->buf_size) {
+            doubleSeqBuf(seq);
+        }
+        memcpy(seq->buf + seq->buf_end, next_str, next_str_size);
+        seq->buf_end += next_str_size;
+        free((void*)next_str);
     }
 
-    if(seq->buf_end == 0 || seq->indices_end == 0) {
-        puts("ERROR: Sequence is zero sized, this should not be possible!");
-        return;
-    }
+    return 0;
 }
 
 Sequence initSequence() {
     Sequence seq;
-    seq.idx = 0;
     seq.buf = calloc(INIT_SEQ_BUF_SIZE, 1);
     seq.buf_size = INIT_SEQ_BUF_SIZE;
     seq.buf_end = 0;
-    seq.indices = malloc(sizeof(unsigned long long) * INIT_SEQ_IND_SIZE);
+    seq.indices = calloc(sizeof(unsigned long long), INIT_SEQ_IND_SIZE);
     seq.indices_size = INIT_SEQ_IND_SIZE;
+//    seq.indices_end = 0; initialized later on
 
     while(seq.indices_size < 3) {
         doubleIndBuf(&seq);
     }
-    seq.indices[0] = 1;
-    seq.indices[1] = 4;
-    seq.indices[2] = 11;
+    seq.indices[0] = 0;
+    seq.indices[1] = 3;
+    seq.indices[2] = 10;
     seq.indices_end = 3;
 
     size_t startingLength = strlen(STARTING_SEQ);
@@ -119,5 +131,22 @@ int main(int argc, char **argv) {
 
     printf("Got input count == %llu\n", count);
 
+//    const char *nString = numberToString(count);
+//    printf("Test string of number is %s\n", nString);
+//    free((void*)nString);
+
+    Sequence seq = initSequence();
+    while(seq.indices_end < count) {
+        nextSeqItem(&seq);
+    }
+
+    printf("String is %s\n", seq.buf);
+
+    for(size_t i = 0; i < seq.indices_end; ++i) {
+        printf("%llu ", seq.indices[i] + 1);
+    }
+    puts("");
+
+    cleanupSequence(&seq);
     return 0;
 }
