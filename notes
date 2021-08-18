@@ -1,0 +1,19 @@
+This problem requires two parts: a way to turn an arbitrary number into a
+numeric string, and locating the indices of a specific letter in a char buffer
+that dynamically grows. It appears the second part depends on the first part for
+this problem.
+
+The first part is made more difficult by the fact that it must be ordinal (use
+"first" instead of "one", and so on). Perhaps this could be made easier if the
+number was converted into a list of tokens that can each be directly converted
+to their string equivalent. This method makes it easy to make it ordinal since
+it can be simply done by making the last numeric token ordinal.
+
+In English, it may be easier to convert the number into each "thousand". For
+example, "123456" could be split into "123 thousand", and "456". They can then
+be subdivided into tokens that can represent a single numeric word.
+
+"123 thousand" -> "100", "20", "3", "thousand"
+    -> onehundred twenty three thousand
+"456" -> "400", "50", "6"
+    -> fourhundred fifty sixth
