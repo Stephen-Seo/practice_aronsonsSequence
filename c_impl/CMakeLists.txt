@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.9)
 project(AronsonsSequencePractice)
 
 set(ASP_SOURCES
-    src/main.c)
+    src/main.c
+    src/numberToString.c)
 
 set(CMAKE_C_FLAGS "-Wall -Wextra -Wpedantic")
 set(CMAKE_C_FLAGS_DEBUG "-g -O0")
