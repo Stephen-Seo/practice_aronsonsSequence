@@ -138,6 +138,7 @@ int main(int argc, char **argv) {
     Sequence seq = initSequence();
     while(seq.indices_end < count) {
         if(nextSeqItem(&seq)) {
+            cleanupSequence(&seq);
             return 1;
         }
     }
