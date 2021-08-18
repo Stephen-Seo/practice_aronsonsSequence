@@ -53,7 +53,7 @@
 
 #define TWENTY "twenty"
 #define THIRTY "thirty"
-#define FOURTY "fourty"
+#define FORTY "forty"
 #define FIFTY "fifty"
 #define SIXTY "sixty"
 #define SEVENTY "seventy"

@@ -318,7 +318,7 @@ const char * tokensToString(NumToken *tokens, size_t tokens_size) {
                 appendStringToBuf(&buf, &buf_idx, &buf_size, THIRTY);
                 break;
             case 40:
-                appendStringToBuf(&buf, &buf_idx, &buf_size, FOURTY);
+                appendStringToBuf(&buf, &buf_idx, &buf_size, FORTY);
                 break;
             case 50:
                 appendStringToBuf(&buf, &buf_idx, &buf_size, FIFTY);
